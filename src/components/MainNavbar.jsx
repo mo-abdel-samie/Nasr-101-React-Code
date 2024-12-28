@@ -22,6 +22,18 @@ function MainNavbar() {
       path: "/student",
     },
     {
+      name: "Counter",
+      path: "/counter",
+    },
+    {
+      name: "Shop",
+      path: "/products",
+    },
+    {
+      name: "Recipes",
+      path: "/recipes",
+    },
+    {
       name: "Error",
       path: "/404",
     },

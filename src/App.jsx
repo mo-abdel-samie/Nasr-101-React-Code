@@ -12,65 +12,76 @@ import Student from "./pages/Student/Student";
 import Profile from "./pages/Student/children/Profile/Profile";
 import Course from "./pages/Student/children/Course/Course";
 import Courses from "./pages/Student/children/Courses/Courses";
-import StudentLayout from "./pages/Student/StudentLayout";
+import StudentLayout from "./layouts/StudentLayout";
+import MainLayout from "./layouts/MainLayout";
+import Counter from "./pages/Counter/Counter";
+import Products from "./pages/Products/Products";
+import Recipes from "./pages/Recipes/Recipes";
 
 function App() {
   const routes = useRoutes([
     {
-      path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/about",
-      element: <About />,
-    },
-    {
-      path: "/student",
+      element: <MainLayout />,
       children: [
         {
-          element: <StudentLayout />,
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/about",
+          element: <About />,
+        },
+        {
+          path: "/student",
           children: [
             {
-              path: "",
-              element: <Student />, // /student
+              element: <StudentLayout />,
+              children: [
+                {
+                  path: "",
+                  element: <Student />, // /student
+                },
+                {
+                  path: "profile",
+                  element: <Profile />, // /student/profile
+                },
+                {
+                  path: "courses",
+                  element: <Courses />, // /student/profile
+                },
+              ],
             },
             {
-              path: "profile",
-              element: <Profile />, // /student/profile
-            },
-            {
-              path: "courses",
-              element: <Courses />, // /student/profile
+              path: "course/:courseId",
+              element: <Course />, // /student/profile
             },
           ],
         },
         {
-          path: "course/:courseId",
-          element: <Course />, // /student/profile
+          path: "/counter",
+          element: <Counter />,
+        },
+        {
+          path: "/products",
+          element: <Products />,
+        },
+        {
+          path: "/recipes",
+          element: <Recipes />,
+        },
+        {
+          path: "/*",
+          element: <Error404 />,
         },
       ],
     },
-    {
-      path: "/*",
-      element: <Error404 />,
-    },
   ]);
 
-  return (
-    <>
-      <MainNavbar />
-      {routes}
+  return routes;
 
-      {/* <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/student" element={<Student />} />
-        <Route path="/student/profile" element={<Profile />} />
-        <Route path="*" element={<Error404 />} />
-      </Routes> */}
-      <MainFooter />
-    </>
-  );
+  // return <MainLayout>
+  //   {routes}
+  // </MainLayout>;
 }
 
 export default App;
