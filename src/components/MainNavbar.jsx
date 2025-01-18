@@ -6,8 +6,13 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link, NavLink } from "react-router-dom";
 import MainNavLink from "./MainNavLink";
+import { useCounterContext } from "../contexts/CounterContext";
+import { useAuthContext } from "../contexts/AuthContext";
 
 function MainNavbar() {
+  const { counter } = useCounterContext();
+  const { isAuth, logout } = useAuthContext();
+
   const links = [
     {
       name: "Home",
@@ -20,10 +25,12 @@ function MainNavbar() {
     {
       name: "Student",
       path: "/student",
+      protected: true,
     },
     {
       name: "Counter",
       path: "/counter",
+      protected: true,
     },
     {
       name: "Shop",
@@ -42,7 +49,7 @@ function MainNavbar() {
   return (
     <Navbar expand="md" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+        <Navbar.Brand href="#">Navbar scroll {counter}</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -50,9 +57,13 @@ function MainNavbar() {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            {links.map((link, index) => (
-              <MainNavLink key={index} {...link} />
-            ))}
+            {links.map((link, index) =>
+              link.protected ? (
+                isAuth && <MainNavLink key={index} {...link} />
+              ) : (
+                <MainNavLink key={index} {...link} />
+              )
+            )}
 
             {/* <MainNavLink name="Home" path="/" />
             <MainNavLink name="About" path="/about" />
@@ -66,6 +77,20 @@ function MainNavbar() {
               aria-label="Search"
             />
             <Button variant="outline-success">Search</Button>
+
+            {isAuth ? (
+              <Button
+                onClick={logout}
+                variant="outline-primary"
+                className="ms-2"
+              >
+                Logout
+              </Button>
+            ) : (
+              <Link to="/login" className="btn btn-primary ms-2">
+                Login
+              </Link>
+            )}
           </Form>
         </Navbar.Collapse>
       </Container>

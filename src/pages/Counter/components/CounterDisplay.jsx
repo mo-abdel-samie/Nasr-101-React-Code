@@ -2,7 +2,7 @@
 export default function CounterDisplay(props) {
   return (
     <div>
-      <p>{props.counterValue}</p>
+      <p className="counterDisplay">{props.counterValue}</p>
     </div>
   );
 }
